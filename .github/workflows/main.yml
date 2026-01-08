@@ -1,0 +1,31 @@
+name: AWS OIDC S3 Connection Test
+
+on:
+  workflow_dispatch: # Allows you to run this manually from the Actions tab
+
+permissions:
+  id-token: write   # This is required for requesting the JWT
+  contents: read    # This is required for actions/checkout
+
+jobs:
+  S3ListTest:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          # Replace with your IAM Role ARN
+          role-to-assume: ${{ secrets.AWS_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Verify Identity and List S3
+        run: |
+          echo "Verifying assumed role..."
+          aws sts get-caller-identity
+          
+          echo "Listing S3 Buckets..."
+          # Specifically checking your surveillance data storage
+          aws s3 ls
