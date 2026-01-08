@@ -18,7 +18,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           # Replace with your IAM Role ARN
-          role-to-assume: ${{ secret.AWS_ACCESS_KEY }}
+          role-to-assume: ${{ secrets.AWS_ACCESS_KEY }}
           aws-region: us-east-1
 
       - name: Verify Identity and List S3
